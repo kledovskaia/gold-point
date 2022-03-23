@@ -18,12 +18,12 @@ export const loading = createSlice({
         state.isLoading = !!state.onLoad.length;
       },
       [thunk.fulfilled]: (state) => {
-        const index = state.onLoad.findIndex(key);
+        const index = state.onLoad.findIndex((name) => name === key);
         state.onLoad.splice(index, 1);
         state.isLoading = !!state.onLoad.length;
       },
       [thunk.rejected]: (state) => {
-        const index = state.onLoad.findIndex(key);
+        const index = state.onLoad.findIndex((name) => name === key);
         state.onLoad.splice(index, 1);
         state.isLoading = !!state.onLoad.length;
       },
@@ -32,5 +32,4 @@ export const loading = createSlice({
   ),
 });
 
-export const { setIsLoading } = loading.actions;
 export default loading.reducer;

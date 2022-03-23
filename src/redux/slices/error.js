@@ -8,6 +8,7 @@ const initialState = {
 export const error = createSlice({
   initialState,
   name: 'error',
+  reducers: {},
   extraReducers: Object.values(thunks).reduce(
     (extraReducers, thunk) => ({
       ...extraReducers,
@@ -18,3 +19,5 @@ export const error = createSlice({
     {}
   ),
 });
+
+export default error.reducer;

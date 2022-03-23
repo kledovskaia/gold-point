@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import * as currencyAPI from '../lib/currencyAPI';
 
 const PERIOD_DAYS = 10;
 
