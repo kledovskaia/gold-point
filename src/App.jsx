@@ -1,19 +1,15 @@
 import { connect } from 'react-redux';
-import { fetchDaily, fetchLastNDays } from './redux/thunks.js';
+import { fetchLastNDays } from './redux/thunks.js';
 import { Route, Routes } from 'react-router-dom';
 import * as routes from './constants/routes';
 import Currency from './pages/Currency';
 import Home from './pages/Home';
 import { useEffect } from 'react';
 
-const App = ({ fetchDaily, fetchLastNDays, currency }) => {
+const App = ({ fetchLastNDays }) => {
   useEffect(() => {
     fetchLastNDays();
   }, []);
-
-  useEffect(() => {
-    console.log(currency);
-  }, [currency]);
 
   return (
     <Routes>
@@ -23,13 +19,8 @@ const App = ({ fetchDaily, fetchLastNDays, currency }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  currency: state.currency,
-});
-
 const actions = {
-  fetchDaily,
   fetchLastNDays,
 };
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(null, actions)(App);

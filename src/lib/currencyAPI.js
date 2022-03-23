@@ -20,7 +20,7 @@ export const fetchLastNDays = async (period) => {
           day: date.getDate().toString().padStart(2, '0'),
         })
       );
-    } catch {
+    } catch (error) {
       return null;
     }
   });
@@ -31,6 +31,7 @@ export const fetchLastNDays = async (period) => {
 
   let resolvedJsones = await Promise.allSettled(jsones);
   resolvedJsones = resolvedJsones.map((entity) => entity && entity.value);
+
   return dates.reduce(
     (result, date, i) => ({
       ...result,
