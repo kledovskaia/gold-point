@@ -16,7 +16,6 @@ export const currency = createSlice({
     },
     [fetchLastNDays.fulfilled]: (state, action) => {
       state.lastPeriod = action.payload;
-      state.today = action.payload[Object.keys(action.payload)[0]];
     },
   },
 });

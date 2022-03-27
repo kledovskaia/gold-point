@@ -3,7 +3,7 @@ import * as urls from '../constants/urls';
 export const fetchDaily = async () => {
   const response = await fetch(urls.DAILY);
   const data = await response.json();
-  return data;
+  return data.Valute;
 };
 export const fetchLastNDays = async (period) => {
   const dates = new Array(period).fill(null).map((_, i) => {
