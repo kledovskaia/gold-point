@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 const Controls = ({ handleSort }) => {
   const handleClick = (e) => {
@@ -6,18 +6,26 @@ const Controls = ({ handleSort }) => {
   };
 
   return (
-    <div>
-      <button onClick={handleClick} name="name">
+    <section className="controls">
+      <button className="controls__button" onClick={handleClick} name="name">
         Name
       </button>
-      <button onClick={handleClick} name="price">
+      <button className="controls__button" onClick={handleClick} name="price">
         Price
       </button>
-      <button onClick={handleClick} name="difference">
+      <button
+        className="controls__button"
+        onClick={handleClick}
+        name="difference"
+      >
         Difference
       </button>
-    </div>
+    </section>
   );
+};
+
+Controls.propTypes = {
+  handleSort: PropTypes.func.isRequired,
 };
 
 export default Controls;

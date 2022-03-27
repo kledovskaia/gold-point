@@ -17,12 +17,12 @@ body {
 
 .main {
   min-height: 100vh;
+  max-width: 114rem;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   .currency-list {
-    width: 114rem;
     max-width: 98vw;
     flex: 1;
   }
@@ -51,7 +51,7 @@ body {
     font-weight: 500;
   }
 
-  &__diff {
+  &__difference {
     min-width: 10rem;
     display: flex;
     div {
@@ -72,12 +72,31 @@ body {
   }
 
   &--increase {
-    border-color: green;
+    border-color: rgb(0, 100, 0);
   }
   &--decrease {
-    border-color: red;
+    border-color: rgb(200, 0, 0);
     .currency__icon {
       transform: rotate(180deg);
+    }
+  }
+}
+
+.controls {
+  border: 0.2rem solid currentColor;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1.15fr;
+  &__button {
+    cursor: pointer;
+    padding: 1rem;
+    font-weight: 500;
+    border: 0;
+    background-color: transparent;
+    &:first-of-type {
+      border-left: 0.8rem solid;
+    }
+    &:last-of-type {
+      border-right: 0.8rem solid;
     }
   }
 }

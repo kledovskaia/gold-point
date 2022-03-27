@@ -1,33 +1,43 @@
+import PropTypes from 'prop-types';
 import ChevronUp from '../assets/chevron-up.svg';
+import { calcCurrencyData } from '../helpers/calcCurrencyData';
 
 const CurrencyInfo = ({ currency, lowestDecrease, highestIncrease }) => {
-  const prev = currency.Previous / currency.Nominal;
-  const curr = currency.Value / currency.Nominal;
-  const diff = (-(prev - curr) * 100) / prev;
+  const { price, difference } = calcCurrencyData(currency);
 
   return (
     <section
       style={{
-        backgroundColor: diff
-          ? diff > 0
-            ? `rgba(0, 175 , 0, ${diff / highestIncrease})`
-            : `rgba(255, 0, 0, ${diff / lowestDecrease})`
+        backgroundColor: difference
+          ? difference > 0
+            ? `rgba(0, 175 , 0, ${difference / highestIncrease})`
+            : `rgba(255, 0, 0, ${difference / lowestDecrease})`
           : 'none',
       }}
       className={`currency ${
-        diff ? `currency--${diff > 0 ? 'increase' : 'decrease'}` : ''
+        difference
+          ? `currency--${difference > 0 ? 'increase' : 'decrease'}`
+          : ''
       } currency-list__item`}
     >
       <div className="currency__name">{currency.CharCode}</div>
-      <div className="currency__curr">{curr.toFixed(2)}</div>
-      <div className="currency__diff">
+      <div className="currency__curr">{price.toFixed(2)}</div>
+      <div className="currency__difference">
         <img className="currency__icon" src={ChevronUp} alt="" />
         <div>
-          <span>{Math.abs(diff.toFixed(2)).toString().padEnd(4, '0')}%</span>
+          <span>
+            {Math.abs(difference.toFixed(2)).toString().padEnd(4, '0')}%
+          </span>
         </div>
       </div>
     </section>
   );
+};
+
+CurrencyInfo.propTypes = {
+  currency: PropTypes.object.isRequired,
+  lowestDecrease: PropTypes.number.isRequired,
+  highestIncrease: PropTypes.number.isRequired,
 };
 
 export default CurrencyInfo;

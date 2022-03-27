@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchDaily, fetchLastNDays } from './redux/thunks.js';
+import PropTypes from 'prop-types';
 import { Route, Routes } from 'react-router-dom';
-import * as routes from './constants/routes';
 import Currency from './pages/Currency';
 import Home from './pages/Home';
-import { useEffect } from 'react';
+import * as routes from './constants/routes';
+import { fetchDaily, fetchLastNDays } from './redux/thunks.js';
 
 const App = ({ fetchLastNDays, fetchDaily }) => {
   useEffect(() => {
@@ -20,6 +21,11 @@ const App = ({ fetchLastNDays, fetchDaily }) => {
       </Routes>
     </main>
   );
+};
+
+App.propTypes = {
+  fetchLastNDays: PropTypes.func.isRequired,
+  fetchDaily: PropTypes.func.isRequired,
 };
 
 const actions = {
