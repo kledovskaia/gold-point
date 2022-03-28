@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
-import ChevronUp from '../assets/chevron-up.svg';
+import { Link } from 'react-router-dom';
+import { ReactComponent as ChevronUpIcon } from '../assets/chevron-up.svg';
 import { calcCurrencyData } from '../helpers/calcCurrencyData';
 
-const CurrencyInfo = ({ currency, lowestDecrease, highestIncrease }) => {
+const CurrencyInfo = ({ type, currency, lowestDecrease, highestIncrease }) => {
   const { price, difference } = calcCurrencyData(currency);
 
-  return (
+  const content = (
     <section
       style={{
         backgroundColor: difference
@@ -24,7 +25,7 @@ const CurrencyInfo = ({ currency, lowestDecrease, highestIncrease }) => {
       <div className="currency__name">{currency.CharCode}</div>
       <div className="currency__curr">{price.toFixed(2)}</div>
       <div className="currency__difference">
-        <img className="currency__icon" src={ChevronUp} alt="" />
+        <ChevronUpIcon />
         <div>
           <span>
             {Math.abs(difference.toFixed(2)).toString().padEnd(4, '0')}%
@@ -33,9 +34,18 @@ const CurrencyInfo = ({ currency, lowestDecrease, highestIncrease }) => {
       </div>
     </section>
   );
+
+  return type === 'link' ? (
+    <Link className="link" to={`/${currency.CharCode}`}>
+      {content}
+    </Link>
+  ) : (
+    content
+  );
 };
 
 CurrencyInfo.propTypes = {
+  type: PropTypes.string,
   currency: PropTypes.object.isRequired,
   lowestDecrease: PropTypes.number.isRequired,
   highestIncrease: PropTypes.number.isRequired,

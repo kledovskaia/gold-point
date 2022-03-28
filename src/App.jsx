@@ -5,12 +5,11 @@ import { Route, Routes } from 'react-router-dom';
 import Currency from './pages/Currency';
 import Home from './pages/Home';
 import * as routes from './constants/routes';
-import { fetchDaily, fetchLastNDays } from './redux/thunks.js';
+import { fetchDaily } from './redux/thunks.js';
 
-const App = ({ fetchLastNDays, fetchDaily }) => {
+const App = ({ fetchDaily }) => {
   useEffect(() => {
     fetchDaily();
-    fetchLastNDays();
   }, []);
 
   return (
@@ -24,12 +23,10 @@ const App = ({ fetchLastNDays, fetchDaily }) => {
 };
 
 App.propTypes = {
-  fetchLastNDays: PropTypes.func.isRequired,
   fetchDaily: PropTypes.func.isRequired,
 };
 
 const actions = {
-  fetchLastNDays,
   fetchDaily,
 };
 

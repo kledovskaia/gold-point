@@ -4,7 +4,10 @@ $primary-light: rgba(#a52838, 0.4);
 $dark: #1e1e1e;
 $light: #fff4eb;
 $increase: green;
+$increase-light: rgb(0, 255, 0);
 $decrease: red;
+$increase-border: rgb(0, 100, 0);
+$decrease-border: rgb(200, 0, 0);
 
 html {
   font-size: 62.5%;
@@ -58,25 +61,25 @@ body {
       margin-left: 1rem;
     }
 
-    .currency__icon {
+    svg {
       display: none;
     }
   }
 
   &--increase,
   &--decrease {
-    .currency__icon {
+    svg {
       display: block;
       max-width: 1rem;
     }
   }
 
   &--increase {
-    border-color: rgb(0, 100, 0);
+    border-color: $increase-border;
   }
   &--decrease {
-    border-color: rgb(200, 0, 0);
-    .currency__icon {
+    border-color: $decrease-border;
+    svg {
       transform: rotate(180deg);
     }
   }
@@ -99,7 +102,7 @@ body {
     justify-content: center;
     align-items: center;
 
-    img {
+    svg {
       margin-left: 1rem;
       max-width: 1rem;
     }
@@ -109,6 +112,29 @@ body {
     }
     &:last-of-type {
       border-right: 0.8rem solid;
+    }
+  }
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    .currency {
+      font-weight: bold;
+      background-color: rgba(rgb(20, 20, 20), 1) !important;
+
+      svg {
+        fill: currentColor;
+      }
+
+      &--increase {
+        color: $increase-light;
+      }
+      &--decrease {
+        color: $decrease;
+      }
     }
   }
 }

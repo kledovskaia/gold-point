@@ -6,6 +6,7 @@ import CurrencyInfo from '../components/CurrencyInfo';
 import { calcCurrencyData } from '../helpers/calcCurrencyData';
 import { sortBy } from '../helpers/sortBy';
 import { setSort } from '../redux/slices/sort';
+import { Link } from 'react-router-dom';
 
 const Home = ({ dataList, setSort, sortType, sortOrder }) => {
   const [currencyList, setCurrencyList] = useState(Object.values(dataList));
@@ -49,6 +50,7 @@ const Home = ({ dataList, setSort, sortType, sortOrder }) => {
         {currencyList?.map((item) => {
           return (
             <CurrencyInfo
+              type="link"
               key={item.CharCode}
               lowestDecrease={lowestDecrease}
               highestIncrease={highestIncrease}
