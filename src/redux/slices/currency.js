@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchDaily, fetchLastNDays } from '../thunks';
 
 const initialState = {
-  today: {},
-  lastPeriod: {},
+  today: null,
+  lastPeriod: null,
 };
 
 export const currency = createSlice({
