@@ -5,12 +5,15 @@ import App from './App';
 import { store } from './redux/store';
 import './normalize.css';
 import './styles.scss';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </StrictMode>,
   document.getElementById('root')
 );

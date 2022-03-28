@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Controls from '../components/Controls';
@@ -6,7 +6,7 @@ import CurrencyInfo from '../components/CurrencyInfo';
 import { sortBy } from '../helpers/sortBy';
 import { setDailySort } from '../redux/slices/sort';
 import { setSelectedCurrency } from '../redux/slices/currency';
-import { useDifference } from '../hooks/useDifference';
+import { calcDifferences } from '../helpers/calcDifferences';
 
 const controlTypes = ['name', 'price', 'difference'];
 
@@ -17,8 +17,9 @@ const Home = ({
   sortOrder,
   setSelectedCurrency,
 }) => {
-  const { highestIncrease, lowestDecrease } = useDifference(
-    Object.values(dataList)
+  const { highestIncrease, lowestDecrease } = useMemo(
+    () => dataList && calcDifferences(Object.values(dataList)),
+    [dataList]
   );
   const [currencyList, setCurrencyList] = useState(
     [...Object.values(dataList)].sort(sortBy[sortType](sortOrder))
@@ -30,9 +31,12 @@ const Home = ({
     );
   }, [sortOrder, sortType, dataList]);
 
-  const handleSort = useCallback((type) => {
-    setSort(type);
-  }, []);
+  const handleSort = useCallback(
+    (type) => {
+      setSort(type);
+    },
+    [setSort]
+  );
 
   return (
     <>

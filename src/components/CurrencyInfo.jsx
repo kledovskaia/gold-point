@@ -13,7 +13,7 @@ const CurrencyInfo = ({
 
   const handleClick = useCallback(() => {
     setSelectedCurrency?.(currency.CharCode);
-  }, []);
+  }, [setSelectedCurrency, currency]);
 
   return (
     <section

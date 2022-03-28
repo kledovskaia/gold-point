@@ -5,12 +5,13 @@ import { setLastNDaysSort } from '../redux/slices/sort';
 import PropTypes from 'prop-types';
 import Controls from '../components/Controls';
 import CurrencyInfo from '../components/CurrencyInfo';
-import { useDifference } from '../hooks/useDifference';
 import { ReactComponent as CloseIcon } from '../assets/close.svg';
 import Spinner from '../components/Spinner';
 import { sortBy } from '../helpers/sortBy';
 import Button from '../components/Button';
 import { setSelectedCurrency } from '../redux/slices/currency';
+import { getCurrenciesByCharCodeFrom } from '../helpers/selectByCharCodeFrom';
+import { calcDifferences } from '../helpers/calcDifferences';
 
 const controlTypes = ['date', 'price', 'difference'];
 
@@ -24,11 +25,13 @@ const Currency = ({
   setSelectedCurrency,
 }) => {
   const [currencyList, setCurrencyList] = useState();
-  const { highestIncrease, lowestDecrease } = useDifference(currencyList);
+  const { highestIncrease, lowestDecrease } = calcDifferences(
+    getCurrenciesByCharCodeFrom(selectedCurrency, lastNDays)
+  );
 
   useEffect(() => {
     if (!lastNDays) fetchLastNDays();
-  }, [selectedCurrency]);
+  }, [selectedCurrency, lastNDays, fetchLastNDays]);
 
   useEffect(() => {
     if (!lastNDays) return;
@@ -38,15 +41,7 @@ const Currency = ({
     }
     setCurrencyList((state) => {
       const list =
-        state ??
-        Object.entries(lastNDays).map(([key, value]) => ({
-          ...(value ? value[selectedCurrency] : {}),
-          Date: `${new Date(key).getDate().toString().padStart(2, '0')}.${(
-            new Date(key).getMonth() + 1
-          )
-            .toString()
-            .padStart(2, '0')}`,
-        }));
+        state ?? getCurrenciesByCharCodeFrom(selectedCurrency, lastNDays) ?? [];
       return [...list].sort(sortBy[sortType](sortOrder));
     });
   }, [lastNDays, sortType, sortOrder, selectedCurrency]);
@@ -57,14 +52,20 @@ const Currency = ({
     };
     window.document.addEventListener('keydown', handleKeyDown);
     return () => window.document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [setSelectedCurrency]);
 
-  const handleClose = useCallback(() => setSelectedCurrency(null), []);
+  const handleClose = useCallback(
+    () => setSelectedCurrency(null),
+    [setSelectedCurrency]
+  );
   const handleInsideClick = useCallback((e) => e.stopPropagation(), []);
 
-  const handleSort = useCallback((type) => {
-    setSort(type);
-  }, []);
+  const handleSort = useCallback(
+    (type) => {
+      setSort(type);
+    },
+    [setSort]
+  );
 
   if (!selectedCurrency) return null;
 

@@ -4,10 +4,13 @@ import { ReactComponent as SortIcon } from '../assets/sort.svg';
 import { memo, useCallback } from 'react';
 
 const Controls = ({ types, handleSort }) => {
-  const handleClick = useCallback((e) => {
-    const { name } = e.target.closest('button');
-    handleSort(name);
-  }, []);
+  const handleClick = useCallback(
+    (e) => {
+      const { name } = e.target.closest('button');
+      handleSort(name);
+    },
+    [handleSort]
+  );
 
   return (
     <section className="controls">

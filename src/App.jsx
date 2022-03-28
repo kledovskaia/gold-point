@@ -5,24 +5,33 @@ import Currency from './containers/Currency';
 import Home from './containers/Home';
 import { fetchDaily } from './redux/thunks.js';
 import Spinner from './components/Spinner';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 const App = ({ areDailyCurrenciesLoaded, fetchDaily }) => {
   useEffect(() => {
     fetchDaily();
-  }, []);
+  }, [fetchDaily]);
 
   return (
-    <>
-      <main className="main">
-        {!areDailyCurrenciesLoaded && <Spinner />}
-        {areDailyCurrenciesLoaded && (
+    <Routes>
+      <Route
+        path="/"
+        element={
           <>
-            <Home />
-            <Currency />
+            <main className="main">
+              {!areDailyCurrenciesLoaded && <Spinner />}
+              {areDailyCurrenciesLoaded && (
+                <>
+                  <Home />
+                  <Currency />
+                </>
+              )}
+            </main>
           </>
-        )}
-      </main>
-    </>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 };
 
