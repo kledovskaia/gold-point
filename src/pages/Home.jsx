@@ -5,21 +5,20 @@ import Controls from '../components/Controls';
 import CurrencyInfo from '../components/CurrencyInfo';
 import { calcCurrencyData } from '../helpers/calcCurrencyData';
 import { sortBy } from '../helpers/sortBy';
+import { setSort } from '../redux/slices/sort';
 
-const Home = ({ dataList }) => {
+const Home = ({ dataList, setSort, sortType, sortOrder }) => {
   const [currencyList, setCurrencyList] = useState(Object.values(dataList));
-  const [sort, setSort] = useState(null);
 
   useEffect(() => {
     setCurrencyList(Object.values(dataList));
   }, [dataList]);
 
   useEffect(() => {
-    if (sort) {
-      const [type, order] = sort.split('-');
-      setCurrencyList([...Object.values(dataList)].sort(sortBy[type](order)));
-    }
-  }, [sort, dataList]);
+    setCurrencyList(
+      [...Object.values(dataList)].sort(sortBy[sortType](sortOrder))
+    );
+  }, [sortOrder, sortType, dataList]);
 
   const currencyDifferences = useMemo(
     () =>
@@ -39,21 +38,9 @@ const Home = ({ dataList }) => {
     [currencyDifferences]
   );
 
-  const handleSort = useCallback(
-    (type) => {
-      if (sort) {
-        const [currentType, currentOrder] = sort.split('-');
-        setSort(
-          `${type}-${
-            type === currentType && currentOrder === 'asc' ? 'desc' : 'asc'
-          }`
-        );
-      } else {
-        setSort(`${type}-asc`);
-      }
-    },
-    [sort]
-  );
+  const handleSort = useCallback((type) => {
+    setSort(type);
+  }, []);
 
   return (
     <>
@@ -76,10 +63,18 @@ const Home = ({ dataList }) => {
 
 Home.propTypes = {
   dataList: PropTypes.object.isRequired,
+  setSort: PropTypes.func.isRequired,
+  sortType: PropTypes.string.isRequired,
+  sortOrder: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   dataList: state.currency.today,
+  sortType: state.sort.type,
+  sortOrder: state.sort.order,
 });
+const actions = {
+  setSort,
+};
 
-export default connect(mapStateToProps)(memo(Home));
+export default connect(mapStateToProps, actions)(memo(Home));

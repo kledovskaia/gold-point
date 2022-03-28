@@ -1,25 +1,23 @@
 import PropTypes from 'prop-types';
+import Button from './Button';
+import Sort from '../assets/sort.svg';
+import { memo } from 'react';
+
+const types = ['name', 'price', 'difference'];
 
 const Controls = ({ handleSort }) => {
-  const handleClick = (e) => {
-    handleSort(e.target.name);
-  };
-
   return (
     <section className="controls">
-      <button className="controls__button" onClick={handleClick} name="name">
-        Name
-      </button>
-      <button className="controls__button" onClick={handleClick} name="price">
-        Price
-      </button>
-      <button
-        className="controls__button"
-        onClick={handleClick}
-        name="difference"
-      >
-        Difference
-      </button>
+      {types.map((name) => (
+        <Button
+          key={name}
+          className="controls__button"
+          onClick={() => handleSort(name)}
+        >
+          <span>{name[0].toUpperCase() + name.slice(1)}</span>
+          <img src={Sort} alt="" />
+        </Button>
+      ))}
     </section>
   );
 };
@@ -28,4 +26,4 @@ Controls.propTypes = {
   handleSort: PropTypes.func.isRequired,
 };
 
-export default Controls;
+export default memo(Controls);
