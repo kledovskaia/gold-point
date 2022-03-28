@@ -18,11 +18,11 @@ const App = ({ isDailyCurrenciesLoaded, fetchDaily }) => {
       <main className="main">
         {!isDailyCurrenciesLoaded && <Spinner />}
         {isDailyCurrenciesLoaded && (
-          <Routes>
-            <Route path={routes.HOME} element={<Home />}>
+          <Home>
+            <Routes>
               <Route path={routes.CURRENCY} element={<Currency />} />
-            </Route>
-          </Routes>
+            </Routes>
+          </Home>
         )}
       </main>
     </>

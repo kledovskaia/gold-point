@@ -1,18 +1,17 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Controls from '../components/Controls';
 import CurrencyInfo from '../components/CurrencyInfo';
-import { calcCurrencyData } from '../helpers/calcCurrencyData';
 import { sortBy } from '../helpers/sortBy';
 import { setSort } from '../redux/slices/sort';
+import { useDifference } from '../hooks/useDifference';
 
-const Home = ({ dataList, setSort, sortType, sortOrder }) => {
-  const [currencyList, setCurrencyList] = useState(Object.values(dataList));
-
-  useEffect(() => {
-    setCurrencyList(Object.values(dataList));
-  }, [dataList]);
+const Home = ({ children, dataList, setSort, sortType, sortOrder }) => {
+  const { highestIncrease, lowestDecrease } = useDifference(dataList);
+  const [currencyList, setCurrencyList] = useState(
+    [...Object.values(dataList)].sort(sortBy[sortType](sortOrder))
+  );
 
   useEffect(() => {
     setCurrencyList(
@@ -20,43 +19,24 @@ const Home = ({ dataList, setSort, sortType, sortOrder }) => {
     );
   }, [sortOrder, sortType, dataList]);
 
-  const currencyDifferences = useMemo(
-    () =>
-      Object.values(dataList).map((currency) => {
-        const { difference } = calcCurrencyData(currency);
-        return difference;
-      }),
-    [dataList]
-  );
-
-  const highestIncrease = useMemo(
-    () => Math.max(...currencyDifferences),
-    [currencyDifferences]
-  );
-  const lowestDecrease = useMemo(
-    () => Math.min(...currencyDifferences),
-    [currencyDifferences]
-  );
-
   const handleSort = useCallback((type) => {
     setSort(type);
   }, []);
 
   return (
     <>
+      {children}
       <Controls handleSort={handleSort} />
       <section className="currency-list">
-        {currencyList.map((item) => {
-          return (
-            <CurrencyInfo
-              type="link"
-              key={item.CharCode}
-              lowestDecrease={lowestDecrease}
-              highestIncrease={highestIncrease}
-              currency={item}
-            />
-          );
-        })}
+        {currencyList.map((item) => (
+          <CurrencyInfo
+            type="link"
+            key={item.CharCode}
+            lowestDecrease={lowestDecrease}
+            highestIncrease={highestIncrease}
+            currency={item}
+          />
+        ))}
       </section>
     </>
   );

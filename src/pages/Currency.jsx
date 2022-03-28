@@ -1,6 +1,8 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import CurrencyInfo from '../components/CurrencyInfo';
+import { calcCurrencyData } from '../helpers/calcCurrencyData';
 import { fetchLastNDays } from '../redux/thunks';
 
 const Currency = ({ lastNDays, fetchLastNDays }) => {
@@ -10,7 +12,9 @@ const Currency = ({ lastNDays, fetchLastNDays }) => {
     if (!lastNDays) fetchLastNDays();
   }, [currency, lastNDays]);
 
-  return lastNDays && <div>Do the logic</div>;
+  if (!currency) return null;
+
+  return <></>;
 };
 
 const mapStateToProps = (state) => ({

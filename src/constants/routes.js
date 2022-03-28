@@ -1,2 +1,1 @@
-export const HOME = '/';
-export const CURRENCY = ':currency';
+export const CURRENCY = '/:currency';
