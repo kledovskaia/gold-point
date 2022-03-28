@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchLastNDays } from '../redux/thunks';
 import { setLastNDaysSort } from '../redux/slices/sort';
@@ -25,8 +25,10 @@ const Currency = ({
   setSelectedCurrency,
 }) => {
   const [currencyList, setCurrencyList] = useState();
-  const { highestIncrease, lowestDecrease } = calcDifferences(
-    getCurrenciesByCharCodeFrom(selectedCurrency, lastNDays)
+  const { highestIncrease, lowestDecrease } = useMemo(
+    () =>
+      calcDifferences(getCurrenciesByCharCodeFrom(selectedCurrency, lastNDays)),
+    [selectedCurrency, lastNDays]
   );
 
   useEffect(() => {
