@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Controls from '../components/Controls';
 import CurrencyInfo from '../components/CurrencyInfo';
 import { sortBy } from '../helpers/sortBy';
-import { setSort } from '../redux/slices/sort';
+import { setDailySort, setSort } from '../redux/slices/sort';
 import { useDifference } from '../hooks/useDifference';
 
 const controlTypes = ['name', 'price', 'difference'];
@@ -55,11 +55,11 @@ Home.propTypes = {
 
 const mapStateToProps = (state) => ({
   dataList: state.currency.today,
-  sortType: state.sort.type,
-  sortOrder: state.sort.order,
+  sortType: state.sort.daily.type,
+  sortOrder: state.sort.daily.order,
 });
 const actions = {
-  setSort,
+  setSort: setDailySort,
 };
 
 export default connect(mapStateToProps, actions)(memo(Home));
