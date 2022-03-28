@@ -17,15 +17,22 @@ export const fetchLastNDays = async (period) => {
     return date;
   });
   const result = dates.map(async (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
     try {
       return await fetch(
         urls.ARCHIVE({
-          year: date.getFullYear(),
-          month: (date.getMonth() + 1).toString().padStart(2, '0'),
-          day: date.getDate().toString().padStart(2, '0'),
+          year,
+          month,
+          day,
         })
       );
-    } catch {
+    } catch (error) {
+      console.log(
+        `Ошибка получения данных за ${day}.${month}.${year} \nКурс ЦБ РФ на данную дату не установлен. Проверить: https://www.cbr.ru/currency_base/daily/`
+      );
       return null;
     }
   });
