@@ -30,6 +30,7 @@ const Currency = ({
   );
 
   useEffect(() => {
+    if (!selectedCurrency) return;
     if (!lastNDays) fetchLastNDays();
   }, [selectedCurrency, lastNDays, fetchLastNDays]);
 
