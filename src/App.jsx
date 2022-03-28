@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Route, Routes } from 'react-router-dom';
-import Currency from './pages/Currency';
-import Home from './pages/Home';
-import * as routes from './constants/routes';
+import Currency from './containers/Currency';
+import Home from './containers/Home';
 import { fetchDaily } from './redux/thunks.js';
 import Spinner from './components/Spinner';
 
-const App = ({ isDailyCurrenciesLoaded, fetchDaily }) => {
+const App = ({ areDailyCurrenciesLoaded, fetchDaily }) => {
   useEffect(() => {
     fetchDaily();
   }, []);
@@ -16,13 +14,12 @@ const App = ({ isDailyCurrenciesLoaded, fetchDaily }) => {
   return (
     <>
       <main className="main">
-        {!isDailyCurrenciesLoaded && <Spinner />}
-        {isDailyCurrenciesLoaded && (
-          <Home>
-            <Routes>
-              <Route path={routes.CURRENCY} element={<Currency />} />
-            </Routes>
-          </Home>
+        {!areDailyCurrenciesLoaded && <Spinner />}
+        {areDailyCurrenciesLoaded && (
+          <>
+            <Home />
+            <Currency />
+          </>
         )}
       </main>
     </>
@@ -35,7 +32,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isDailyCurrenciesLoaded: !!state.currency.today,
+  areDailyCurrenciesLoaded: !!state.currency.today,
 });
 
 const actions = {

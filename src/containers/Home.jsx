@@ -4,12 +4,19 @@ import PropTypes from 'prop-types';
 import Controls from '../components/Controls';
 import CurrencyInfo from '../components/CurrencyInfo';
 import { sortBy } from '../helpers/sortBy';
-import { setDailySort, setSort } from '../redux/slices/sort';
+import { setDailySort } from '../redux/slices/sort';
+import { setSelectedCurrency } from '../redux/slices/currency';
 import { useDifference } from '../hooks/useDifference';
 
 const controlTypes = ['name', 'price', 'difference'];
 
-const Home = ({ children, dataList, setSort, sortType, sortOrder }) => {
+const Home = ({
+  dataList,
+  setSort,
+  sortType,
+  sortOrder,
+  setSelectedCurrency,
+}) => {
   const { highestIncrease, lowestDecrease } = useDifference(
     Object.values(dataList)
   );
@@ -29,13 +36,12 @@ const Home = ({ children, dataList, setSort, sortType, sortOrder }) => {
 
   return (
     <>
-      {children}
       <Controls types={controlTypes} handleSort={handleSort} />
-      <section className="currency-list">
+      <section className="currency-list currency-list--interactive">
         {currencyList.map((item) => (
           <CurrencyInfo
-            type="link"
             key={item.CharCode}
+            setSelectedCurrency={setSelectedCurrency}
             lowestDecrease={lowestDecrease}
             highestIncrease={highestIncrease}
             currency={item}
@@ -51,6 +57,7 @@ Home.propTypes = {
   setSort: PropTypes.func.isRequired,
   sortType: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
+  setSelectedCurrency: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -60,6 +67,7 @@ const mapStateToProps = (state) => ({
 });
 const actions = {
   setSort: setDailySort,
+  setSelectedCurrency,
 };
 
 export default connect(mapStateToProps, actions)(memo(Home));

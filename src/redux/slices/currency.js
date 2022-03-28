@@ -4,12 +4,18 @@ import { fetchDaily, fetchLastNDays } from '../thunks';
 const initialState = {
   today: null,
   lastNDays: null,
+  selectedCurrency: null,
 };
 
 export const currency = createSlice({
   initialState,
   name: 'currency',
-  reducers: {},
+  reducers: {
+    setSelectedCurrency: (state, action) => {
+      const currencyName = action.payload;
+      state.selectedCurrency = currencyName;
+    },
+  },
   extraReducers: {
     [fetchDaily.fulfilled]: (state, action) => {
       state.today = action.payload;
@@ -19,5 +25,5 @@ export const currency = createSlice({
     },
   },
 });
-
+export const { setSelectedCurrency } = currency.actions;
 export default currency.reducer;

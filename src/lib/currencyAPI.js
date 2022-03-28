@@ -1,9 +1,14 @@
 import * as urls from '../constants/urls';
 
 export const fetchDaily = async () => {
-  const response = await fetch(urls.DAILY);
-  const data = await response.json();
-  return data.Valute;
+  try {
+    const response = await fetch(urls.DAILY);
+    const data = await response.json();
+    return data.Valute;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 export const fetchLastNDays = async (period) => {
   const dates = new Array(period).fill(null).map((_, i) => {
@@ -20,7 +25,7 @@ export const fetchLastNDays = async (period) => {
           day: date.getDate().toString().padStart(2, '0'),
         })
       );
-    } catch (error) {
+    } catch {
       return null;
     }
   });

@@ -1,15 +1,24 @@
 import PropTypes from 'prop-types';
-import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { memo, useCallback } from 'react';
 import { ReactComponent as ChevronUpIcon } from '../assets/chevron-up.svg';
 import { calcCurrencyData } from '../helpers/calcCurrencyData';
 
-const CurrencyInfo = ({ type, currency, lowestDecrease, highestIncrease }) => {
-  if (!currency) return <div>No info</div>;
+const CurrencyInfo = ({
+  currency,
+  lowestDecrease,
+  highestIncrease,
+  setSelectedCurrency,
+}) => {
   const { price, difference } = calcCurrencyData(currency);
 
-  const content = (
+  const handleClick = useCallback(() => {
+    setSelectedCurrency?.(currency.CharCode);
+  }, []);
+
+  return (
     <section
+      onClick={handleClick}
+      title={currency.Name}
       style={{
         backgroundColor: difference
           ? difference > 0
@@ -38,21 +47,13 @@ const CurrencyInfo = ({ type, currency, lowestDecrease, highestIncrease }) => {
       </div>
     </section>
   );
-
-  return type === 'link' ? (
-    <Link className="link" to={`/${currency.CharCode}`}>
-      {content}
-    </Link>
-  ) : (
-    content
-  );
 };
 
 CurrencyInfo.propTypes = {
-  type: PropTypes.string,
   currency: PropTypes.object.isRequired,
   lowestDecrease: PropTypes.number.isRequired,
   highestIncrease: PropTypes.number.isRequired,
+  setSelectedCurrency: PropTypes.func,
 };
 
 export default memo(CurrencyInfo);
