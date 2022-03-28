@@ -11,8 +11,17 @@ export const fetchDaily = async () => {
   }
 };
 export const fetchLastNDays = async (period) => {
+  let year, month, day;
+  try {
+    const dailyResponse = await fetch(urls.DAILY);
+    const dailyJson = await dailyResponse.json();
+    [year, month, day] = dailyJson.Date.slice(0, 10).split('-');
+  } catch (error) {
+    console.log('Error fetching daily currency data');
+  }
+
   const dates = new Array(period).fill(null).map((_, i) => {
-    const date = new Date();
+    const date = new Date(+year, month - 1, +day);
     date.setDate(date.getDate() - i);
     return date;
   });
