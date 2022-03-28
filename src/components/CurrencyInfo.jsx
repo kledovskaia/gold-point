@@ -23,7 +23,7 @@ const CurrencyInfo = ({
         backgroundColor: difference
           ? difference > 0
             ? `rgba(0, 175 , 0, ${difference / highestIncrease})`
-            : `rgba(255, 0, 0, ${difference / lowestDecrease})`
+            : `rgba(225, 0, 0, ${difference / lowestDecrease})`
           : 'none',
       }}
       className={`currency ${
