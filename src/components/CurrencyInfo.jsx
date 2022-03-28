@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 import ChevronUp from '../assets/chevron-up.svg';
 import { calcCurrencyData } from '../helpers/calcCurrencyData';
 
@@ -40,4 +41,4 @@ CurrencyInfo.propTypes = {
   highestIncrease: PropTypes.number.isRequired,
 };
 
-export default CurrencyInfo;
+export default memo(CurrencyInfo);
