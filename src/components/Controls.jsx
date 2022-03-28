@@ -3,9 +3,7 @@ import Button from './Button';
 import { ReactComponent as SortIcon } from '../assets/sort.svg';
 import { memo, useCallback } from 'react';
 
-const types = ['name', 'price', 'difference'];
-
-const Controls = ({ handleSort }) => {
+const Controls = ({ types, handleSort }) => {
   const handleClick = useCallback((e) => {
     const { name } = e.target.closest('button');
     handleSort(name);
@@ -29,6 +27,7 @@ const Controls = ({ handleSort }) => {
 };
 
 Controls.propTypes = {
+  types: PropTypes.arrayOf(PropTypes.string),
   handleSort: PropTypes.func.isRequired,
 };
 

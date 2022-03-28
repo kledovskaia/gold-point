@@ -3,7 +3,7 @@ import { fetchDaily, fetchLastNDays } from '../thunks';
 
 const initialState = {
   today: null,
-  lastPeriod: null,
+  lastNDays: null,
 };
 
 export const currency = createSlice({
@@ -15,7 +15,7 @@ export const currency = createSlice({
       state.today = action.payload;
     },
     [fetchLastNDays.fulfilled]: (state, action) => {
-      state.lastPeriod = action.payload;
+      state.lastNDays = action.payload;
     },
   },
 });

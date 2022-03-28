@@ -5,6 +5,7 @@ import { ReactComponent as ChevronUpIcon } from '../assets/chevron-up.svg';
 import { calcCurrencyData } from '../helpers/calcCurrencyData';
 
 const CurrencyInfo = ({ type, currency, lowestDecrease, highestIncrease }) => {
+  if (!currency) return <div>No info</div>;
   const { price, difference } = calcCurrencyData(currency);
 
   const content = (
@@ -22,14 +23,17 @@ const CurrencyInfo = ({ type, currency, lowestDecrease, highestIncrease }) => {
           : ''
       } currency-list__item`}
     >
-      <div className="currency__name">{currency.CharCode}</div>
-      <div className="currency__curr">{price.toFixed(2)}</div>
+      <div className="currency__name">{currency.Date || currency.CharCode}</div>
+      <div className="currency__curr">{price ? price.toFixed(2) : 'n/a'}</div>
       <div className="currency__difference">
         <ChevronUpIcon />
         <div>
-          <span>
-            {Math.abs(difference.toFixed(2)).toString().padEnd(4, '0')}%
-          </span>
+          {!difference && <span>n/a</span>}
+          {!!difference && (
+            <span>
+              {!difference ? 'n/a' : Math.abs(difference.toFixed(2)) + '%'}
+            </span>
+          )}
         </div>
       </div>
     </section>

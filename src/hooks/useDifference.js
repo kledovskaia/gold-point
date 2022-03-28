@@ -4,7 +4,9 @@ import { calcCurrencyData } from '../helpers/calcCurrencyData';
 export const useDifference = (dataList) => {
   const currencyDifferences = useMemo(
     () =>
-      Object.values(dataList).map((currency) => {
+      dataList &&
+      dataList.map((currency) => {
+        if (!currency.Value) return 0;
         const { difference } = calcCurrencyData(currency);
         return difference;
       }),
@@ -12,11 +14,11 @@ export const useDifference = (dataList) => {
   );
 
   const highestIncrease = useMemo(
-    () => Math.max(...currencyDifferences),
+    () => currencyDifferences && Math.max(...currencyDifferences),
     [currencyDifferences]
   );
   const lowestDecrease = useMemo(
-    () => Math.min(...currencyDifferences),
+    () => currencyDifferences && Math.min(...currencyDifferences),
     [currencyDifferences]
   );
 

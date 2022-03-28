@@ -45,8 +45,8 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
-  border-left: 1rem solid transparent;
-  border-right: 1rem solid transparent;
+  border-left: 1rem solid $dark;
+  border-right: 1rem solid $dark;
   border-bottom: 0.1rem solid $dark;
 
   &__name,
@@ -55,6 +55,7 @@ body {
   }
 
   &__difference {
+    font-weight: 500;
     min-width: 10rem;
     display: flex;
     div {
@@ -124,6 +125,7 @@ body {
     .currency {
       font-weight: bold;
       background-color: rgba(rgb(20, 20, 20), 1) !important;
+      color: $light;
 
       svg {
         fill: currentColor;
@@ -152,7 +154,6 @@ body {
   max-width: 100px;
 }
 
-// SVG animation.
 @keyframes spinner-animation {
   0% {
     transform: rotateZ(0deg);
@@ -162,12 +163,11 @@ body {
   }
 }
 
-// Circle styles.
 .circle {
   animation: 1.4s ease-in-out infinite both circle-animation;
   display: block;
   fill: transparent;
-  stroke: #2f3d4c;
+  stroke: orangered;
   stroke-linecap: round;
   stroke-dasharray: 283;
   stroke-dashoffset: 280;
@@ -175,7 +175,6 @@ body {
   transform-origin: 50% 50%;
 }
 
-// Circle animation.
 @keyframes circle-animation {
   0%,
   25% {
@@ -192,5 +191,45 @@ body {
   100% {
     stroke-dashoffset: 280;
     transform: rotate(360deg);
+  }
+}
+
+.overlay {
+  overflow: hidden;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($dark, 0.95);
+}
+
+.popup {
+  padding: 4rem 2rem;
+  max-width: 135rem;
+  width: 70vw;
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: -2rem;
+
+    svg {
+      fill: $light;
+      max-width: 3rem;
+    }
+  }
+
+  .controls,
+  .currency-list {
+    background-color: $light;
+  }
+
+  .currency-list {
+    flex: 0;
   }
 }

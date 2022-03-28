@@ -7,8 +7,12 @@ import { sortBy } from '../helpers/sortBy';
 import { setSort } from '../redux/slices/sort';
 import { useDifference } from '../hooks/useDifference';
 
+const controlTypes = ['name', 'price', 'difference'];
+
 const Home = ({ children, dataList, setSort, sortType, sortOrder }) => {
-  const { highestIncrease, lowestDecrease } = useDifference(dataList);
+  const { highestIncrease, lowestDecrease } = useDifference(
+    Object.values(dataList)
+  );
   const [currencyList, setCurrencyList] = useState(
     [...Object.values(dataList)].sort(sortBy[sortType](sortOrder))
   );
@@ -26,7 +30,7 @@ const Home = ({ children, dataList, setSort, sortType, sortOrder }) => {
   return (
     <>
       {children}
-      <Controls handleSort={handleSort} />
+      <Controls types={controlTypes} handleSort={handleSort} />
       <section className="currency-list">
         {currencyList.map((item) => (
           <CurrencyInfo
